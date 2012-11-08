@@ -13,7 +13,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 // .schema notes
 public class NotesDbAdapter {
 	private static final String DATABASE_NAME = "notes.db";
-	private static final int DATABASE_VERSION = 5;
+	private static final int DATABASE_VERSION = 7;
 	private static final String DATABASE_TABLE = "notes";
 	private static final String DATABASE_CREATE = "CREATE TABLE IF NOT EXISTS notes(_id INTEGER PRIMARY KEY, note TEXT NOT NULL, created INTEGER);";
 	private static final String ANDOIRD_METADATA_TABLE = "CREATE TABLE IF NOT EXISTS android_metadata (locale TEXT DEFAULT 'en_US'); INSERT INTO android_metadata VALUES('en_US');";
@@ -28,14 +28,19 @@ public class NotesDbAdapter {
 		public void onCreate(SQLiteDatabase db) {
 			db.execSQL(ANDOIRD_METADATA_TABLE);
 			db.execSQL(DATABASE_CREATE);
-			db.execSQL("INSERT INTO notes VALUES(1, 'gg', 20);");
-			db.execSQL("INSERT INTO notes VALUES(2, 'ss', 30);");
 		}
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 			db.execSQL("DROP TABLE IF EXISTS notes;");
 			onCreate(db);
+			buildSampleData(db);
+		}
+		
+		private void buildSampleData(SQLiteDatabase db) {
+			db.execSQL("INSERT INTO notes VALUES(1, 'gg', 20);");
+			db.execSQL("INSERT INTO notes VALUES(2, 'ss', 30);");
+			db.execSQL("INSERT INTO notes VALUES(3, 'dd', 40);");
 		}
 
 	}
