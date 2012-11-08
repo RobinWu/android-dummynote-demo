@@ -52,6 +52,7 @@ public class NotesDbAdapter {
 	public static final String KEY_ROWID = "_id";
 	public static final String KEY_NOTE = "note";
 	public static final String KEY_CREATED = "created";
+	String[] strCols = new String[] {KEY_ROWID, KEY_NOTE, KEY_CREATED};
 	
 	public NotesDbAdapter(Context ctx) {
 		this.mCtx = ctx;
@@ -69,6 +70,7 @@ public class NotesDbAdapter {
 	}
 	
 	public Cursor getAll() {
-		return db.rawQuery("SELECT * FROM notes", null);
+		// return db.rawQuery("SELECT * FROM notes", null);
+		return db.query(DATABASE_TABLE, strCols, null, null, null, null, null);
 	}
 }
