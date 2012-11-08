@@ -49,6 +49,10 @@ public class NotesDbAdapter {
 	private DatabaseHelper dbHelper;
 	private SQLiteDatabase db;
 	
+	public static final String KEY_ROWID = "_id";
+	public static final String KEY_NOTE = "note";
+	public static final String KEY_CREATED = "created";
+	
 	public NotesDbAdapter(Context ctx) {
 		this.mCtx = ctx;
 	}

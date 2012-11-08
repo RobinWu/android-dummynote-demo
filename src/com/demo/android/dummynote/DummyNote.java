@@ -46,7 +46,7 @@ public class DummyNote extends ListActivity {
 		mNotesCursor = mDbHelper.getAll();
 		startManagingCursor(mNotesCursor);
 		
-		String[] from = new String[]{"note"};
+		String[] from = new String[]{NotesDbAdapter.KEY_NOTE};
 		int[] to = new int[]{android.R.id.text1};
 
 		Log.v(TAG, "setListAdapter by notes db");
