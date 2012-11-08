@@ -5,12 +5,15 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class DummyNote extends ListActivity {
@@ -58,6 +61,7 @@ public class DummyNote extends ListActivity {
 		Log.v(TAG, "set Empty list");
         ListView list = (ListView)getListView();
         list.setEmptyView(findViewById(R.id.empty));
+        registerForContextMenu(list);
         setAdapter();
     }
 
@@ -110,6 +114,37 @@ public class DummyNote extends ListActivity {
 		Intent intent = new Intent(this, NoteEdit.class);
 		intent.putExtra(NotesDbAdapter.KEY_ROWID, id);
 		startActivityForResult(intent, ACTIVITY_EDIT);
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		
+		AdapterContextMenuInfo info;
+		info = (AdapterContextMenuInfo) item.getMenuInfo();
+		
+		switch (item.getItemId()) {
+		case MENU_DELETE:
+			Log.v(TAG, "MENU item " + info.id);
+			
+			mDbHelper.delete(info.id);
+			fillData();
+			break;
+
+		default:
+			break;
+		}
+		
+		return super.onContextItemSelected(item);
+	}
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		// TODO Auto-generated method stub
+		super.onCreateContextMenu(menu, v, menuInfo);
+		menu.add(0, MENU_DELETE, 0, R.string.label_menu_delete);
+		menu.setHeaderTitle(R.string.contextmenu_title	);
 	}
 	
 	
