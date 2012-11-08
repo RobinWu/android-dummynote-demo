@@ -1,6 +1,7 @@
 package com.demo.android.dummynote;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
@@ -91,6 +92,24 @@ public class DummyNote extends ListActivity {
 		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this, 
 				android.R.layout.simple_list_item_1, mNotesCursor, from, to);
 		setListAdapter(adapter);
+	}
+
+	private static final int ACTIVITY_EDIT = 0x1001;
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		fillData();
+	}
+
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		// TODO Auto-generated method stub
+		super.onListItemClick(l, v, position, id);
+		Intent intent = new Intent(this, NoteEdit.class);
+		intent.putExtra(NotesDbAdapter.KEY_ROWID, id);
+		startActivityForResult(intent, ACTIVITY_EDIT);
 	}
 	
 	
