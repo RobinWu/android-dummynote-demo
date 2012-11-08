@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 // adb shell
 // cd data/data/com.demo.android.dummynote/databases
@@ -84,5 +85,10 @@ public class NotesDbAdapter {
 		args.put(KEY_CREATED, now.getTime());
 		
 		return db.insert(DATABASE_TABLE, null, args);
+	}
+	
+	public boolean delete(long rowid) {
+		Log.v(DummyNote.TAG, "delete rowid " + rowid);
+		return db.delete(DATABASE_TABLE, KEY_ROWID + "=" + rowid, null) > 0;
 	}
 }

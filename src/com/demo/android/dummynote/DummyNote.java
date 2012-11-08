@@ -6,20 +6,24 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class DummyNote extends ListActivity {
 
 	public static final String TAG = "DummyNote";
 	private int mNoteNumber = 1;
 	protected static final int MENU_INSERT = Menu.FIRST;
+	protected static final int MENU_DELETE = Menu.FIRST + 1;
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		menu.add(0, MENU_INSERT, 0, R.string.label_menu_new);
+		menu.add(0, MENU_DELETE, 0, R.string.label_menu_delete);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -31,9 +35,15 @@ public class DummyNote extends ListActivity {
 			mDbHelper.create(noteName);
 			fillData();
 			return true;
+		case MENU_DELETE:
+			Log.v(TAG, "delete record");
+			mDbHelper.delete(getListView().getSelectedItemId());
+			fillData();
+			return true;
 		default:
 			break;
 		}
+		
 		return super.onOptionsItemSelected(item);
 	}
 	
@@ -45,14 +55,16 @@ public class DummyNote extends ListActivity {
 		Log.v(TAG, "onCreate");
         setContentView(R.layout.main);
 		Log.v(TAG, "set Empty list");
-        getListView().setEmptyView(findViewById(R.id.empty));
+        ListView list = (ListView)getListView();
+        list.setEmptyView(findViewById(R.id.empty));
         setAdapter();
     }
 
-    //private String[] note_array = {};
+	//private String[] note_array = {};
     private String[] note_array = {"gasolin", "crote", "louk", "magicion"};
     private NotesDbAdapter mDbHelper;
     private Cursor mNotesCursor;
+    private int iSelectedId;
 	
 	private void setAdapter() {
 		Log.v(TAG, "setAdapter");
