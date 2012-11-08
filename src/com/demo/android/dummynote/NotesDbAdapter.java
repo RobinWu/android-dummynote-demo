@@ -1,5 +1,8 @@
 package com.demo.android.dummynote;
 
+import java.util.Date;
+
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -72,5 +75,14 @@ public class NotesDbAdapter {
 	public Cursor getAll() {
 		// return db.rawQuery("SELECT * FROM notes", null);
 		return db.query(DATABASE_TABLE, strCols, null, null, null, null, null);
+	}
+	
+	public long create(String note) {
+		Date now = new Date();
+		ContentValues args = new ContentValues();
+		args.put(KEY_NOTE, note);
+		args.put(KEY_CREATED, now.getTime());
+		
+		return db.insert(DATABASE_TABLE, null, args);
 	}
 }

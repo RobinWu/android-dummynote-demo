@@ -2,4 +2,5 @@
 <resources>
     <string name="hello">Hello World, DummyNote!</string>
     <string name="app_name">DummyNote</string>
+    <string name="label_menu_new">新增</string>
 </resources>
