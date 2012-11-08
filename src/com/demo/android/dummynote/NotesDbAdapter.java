@@ -91,4 +91,20 @@ public class NotesDbAdapter {
 		Log.v(DummyNote.TAG, "delete rowid " + rowid);
 		return db.delete(DATABASE_TABLE, KEY_ROWID + "=" + rowid, null) > 0;
 	}
+	
+	public Cursor get(long rowid) throws SQLException {
+		Cursor mCursor = db.query(true, DATABASE_TABLE, strCols, KEY_ROWID + "=" + rowid, null, null, null, null, null);
+		if(mCursor != null) {
+			mCursor.moveToFirst();
+		}
+		
+		return mCursor;
+	}
+	
+	public boolean update(long rowid, String note) {
+		ContentValues args = new ContentValues();
+		args.put(KEY_NOTE, note);
+		
+		return db.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowid, null) > 0;
+	}
 }
